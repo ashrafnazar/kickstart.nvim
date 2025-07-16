@@ -14,6 +14,8 @@ return {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
+    'theHamsta/nvim-dap-virtual-text',
+
     -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
 
@@ -80,7 +82,67 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    local utils = require 'dap.utils'
 
+    dap.adapters = {
+      ['pwa-node'] = {
+        type = 'server',
+        port = '${port}',
+        executable = {
+          command = 'js-debug-adapter',
+          args = {
+            '${port}',
+          },
+        },
+      },
+    }
+    for _, language in ipairs { 'typescript', 'javascript' } do
+      dap.configurations[language] = {
+        {
+          type = 'pwa-node',
+          request = 'launch',
+          name = 'Launch file',
+          program = '${file}',
+          cwd = '${workspaceFolder}',
+        },
+        {
+          type = 'pwa-node',
+          request = 'attach',
+          name = 'Attach to process ID',
+          processId = utils.pick_process,
+          cwd = '${workspaceFolder}',
+        },
+        {
+          type = 'pwa-chrome',
+          request = 'launch',
+          name = 'Launch & Debug Chrome',
+          url = function()
+            local co = coroutine.running()
+            return coroutine.create(function()
+              vim.ui.input({
+                prompt = 'Enter URL: ',
+                default = 'http://localhost:3001',
+              }, function(url)
+                if url == nil or url == '' then
+                  return
+                else
+                  coroutine.resume(co, url)
+                end
+              end)
+            end)
+          end,
+          webRoot = vim.fn.getcwd(),
+          protocol = 'inspector',
+          sourceMaps = true,
+          userDataDir = false,
+        },
+        {
+          name = '----- ↓ launch.json configs ↓ -----',
+          type = '',
+          request = 'launch',
+        },
+      }
+    end
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
