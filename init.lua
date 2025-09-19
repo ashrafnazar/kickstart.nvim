@@ -218,9 +218,6 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
-vim.keymap.set('n', 'gb', '<cmd>BufferLinePick<CR>', { desc = 'Pick a buffer to switch to' })
-vim.keymap.set('n', 'gB', '<cmd>BufferLinePickClose<CR>', { desc = 'Pick a buffer to close' })
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -775,18 +772,20 @@ require('lazy').setup({
         end
       end,
       formatters_by_ft = {
-        css = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettier' },
         go = { 'gofumpt' },
-        html = { 'htmlbeautifier' },
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        json = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettier' },
+        java = { 'google-java-format' },
+        javascript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        json = { 'prettier' },
         lua = { 'stylua' },
-        markdown = { 'prettierd', 'prettier', stop_after_first = true },
+        markdown = { 'markdownlint' },
         python = { 'isort', 'black' },
-        scss = { 'prettierd', 'prettier', stop_after_first = true },
-        typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettier' },
+        typescript = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        yaml = { 'yamlfmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -956,7 +955,6 @@ require('lazy').setup({
         'lua',
         'luadoc',
         'markdown',
-        'markdown_inline',
         'query',
         'vim',
         'vimdoc',
