@@ -175,6 +175,10 @@ vim.o.confirm = true
 
 vim.o.termguicolors = true
 
+-- Uncomment when more familiar with folds
+-- vim.wo.foldmethod = 'expr'
+-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+
 -- Prepend mise shims to PATH
 vim.env.PATH = vim.env.HOME .. '/.local/share/mise/shims:' .. vim.env.PATH
 
@@ -1797,7 +1801,6 @@ require('lazy').setup({
         css = { 'prettier' },
         go = { 'gofumpt' },
         html = { 'prettier' },
-        java = { 'google-java-format' },
         javascript = { 'prettier' },
         javascriptreact = { 'prettier' },
         json = { 'prettier' },
@@ -1974,12 +1977,14 @@ require('lazy').setup({
         'gowork',
         'gosum',
         'html',
+        'java',
         'lua',
         'luadoc',
         'markdown',
         'query',
         'vim',
         'vimdoc',
+        'zig',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -2011,10 +2016,8 @@ require('lazy').setup({
   --
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
