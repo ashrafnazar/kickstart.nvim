@@ -35,6 +35,14 @@ return {
       -- Open the diagnostic float for the current line
       vim.keymap.set('n', '<leader>of', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 
+      -- LSP hover on K
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('user-lsp-attach', { clear = true }),
+        callback = function(event)
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'LSP: Hover Documentation' })
+        end,
+      })
+
       -- Window navigation — same as kickstart but with remap = true so they
       -- still work when a plugin (e.g. nvim-tree) remaps <C-h> etc.
       vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window', remap = true })
